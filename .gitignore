@@ -118,6 +118,9 @@ ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 
+# Linux
+env.sh
+
 # PyCharm
 .idea/
 *.iml

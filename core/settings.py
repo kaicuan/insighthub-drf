@@ -26,7 +26,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["infs3202-83beb4f1.uqcloud.net"]
+ALLOWED_HOSTS = ["infs3202-83beb4f1.uqcloud.net", "*"]
 
 CSRF_TRUSTED_ORIGINS = ["https://infs3202-83beb4f1.uqcloud.net"]
 
@@ -109,6 +109,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = 'api.User'
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+]
 
 
 # Internationalization

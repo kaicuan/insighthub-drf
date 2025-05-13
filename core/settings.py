@@ -26,9 +26,9 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["infs3202-83beb4f1.uqcloud.net", "*"]
+ALLOWED_HOSTS = ["infs3202-83beb4f1.uqcloud.net", "localhost"]
 
-CSRF_TRUSTED_ORIGINS = ["https://infs3202-83beb4f1.uqcloud.net"]
+CSRF_TRUSTED_ORIGINS = ["https://infs3202-83beb4f1.uqcloud.net",]
 
 
 # Application definition
@@ -130,10 +130,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'insighthub/admin/static/'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/public/'
+MEDIA_ROOT = BASE_DIR / 'public'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

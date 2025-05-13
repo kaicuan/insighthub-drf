@@ -33,29 +33,38 @@ class User(AbstractUser):
     profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
     provider = models.CharField(max_length=50, default='insighthub')
     provideraccountid = models.CharField(max_length=255, null=True, blank=True)
+    is_archived = models.BooleanField(default=False)
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
 
-class Dataset(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    filename = models.CharField(max_length=255)
-    columns = ArrayField(models.CharField(max_length=63))
-    data = models.JSONField()
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-
 class Dashboard(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='dashboards')
-    dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE, related_name='dashboards')
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     is_public = models.BooleanField(default=False)
     preview_image = models.ImageField(upload_to='dashboard_previews/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_archived = models.BooleanField(default=False)
+
+class Dataset(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    dashboard = models.ForeignKey(
+        Dashboard,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+        related_name='datasets'
+    )
+    filename = models.CharField(max_length=255)
+    columns = ArrayField(models.CharField(max_length=63))
+    data = models.JSONField()
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    is_archived = models.BooleanField(default=False)
 
 class Chart(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -65,12 +74,14 @@ class Chart(models.Model):
     data = models.JSONField()
     config = models.JSONField()
     order = models.PositiveIntegerField()
+    is_archived = models.BooleanField(default=False)
 
 class Like(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
     dashboard = models.ForeignKey(Dashboard, on_delete=models.CASCADE, related_name='likes')
     created_at = models.DateTimeField(auto_now_add=True)
+    is_archived = models.BooleanField(default=False)
 
     class Meta:
         constraints = [
@@ -83,3 +94,4 @@ class Comment(models.Model):
     dashboard = models.ForeignKey(Dashboard, on_delete=models.CASCADE, related_name='comments')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    is_archived = models.BooleanField(default=False)
